@@ -38,6 +38,10 @@ application {
     mainClass = 'org.writer.Main'
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
 test {
     useJUnitPlatform()
 }
