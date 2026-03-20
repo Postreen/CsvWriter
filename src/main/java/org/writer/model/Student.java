@@ -8,6 +8,9 @@ import org.writer.csv.annotation.CsvEntity;
 
 import java.util.List;
 
+/**
+ * Демонстрационная модель, представляющая студента со списком оценок.
+ */
 @Data
 @Builder
 @AllArgsConstructor

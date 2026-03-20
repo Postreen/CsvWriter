@@ -1,6 +1,5 @@
 package org.writer.csv;
 
-
 import org.writer.csv.annotation.CsvColumn;
 import org.writer.csv.annotation.CsvEntity;
 
@@ -10,16 +9,18 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Сериализует список объектов в CSV-строку.
+ * Сериализует список объектов в CSV-строку с использованием рефлексии и аннотаций.
  *
- * <p>Для сериализации класс объекта должен быть помечен аннотацией {@link CsvEntity},
- * а поля, которые должны попасть в CSV - аннотацией {@link CsvColumn}.
+ * <p>Тип объекта должен быть аннотирован {@link CsvEntity}, а каждое поле,
+ * которое должно быть включено в результат, должно быть аннотировано {@link CsvColumn}.
+ * Порядок столбцов определяется значением {@link CsvColumn#order()}.
  *
- * <p>Поддерживаются:
+ * <p>Поддержка обработки значений:
  * <ul>
- *     <li>строки, числа, enum и другие типы через {@code toString()}</li>
- *     <li>{@link Collection} - элементы объединяются в одну ячейку через {@value #DEFAULT_LIST_DELIMITER}</li>
- *     <li>{@code null} значения полей - преобразуются в пустую строку</li>
+ *     <li>простые значения преобразуются с помощью {@link String#valueOf(Object)}</li>
+ *     <li>{@link Collection коллекции} объединяются в одну ячейку с использованием разделителя {@value #DEFAULT_LIST_DELIMITER}</li>
+ *     <li>значения полей {@code null} преобразуются в пустую строку</li>
+ *     <li>значения, содержащие разделители, кавычки или переводы строк, экранируются в соответствии с правилами CSV</li>
  * </ul>
  */
 public class CsvSerializer {
@@ -28,13 +29,16 @@ public class CsvSerializer {
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
     /**
-     * Преобразует список объектов в CSV-строку.
+     * Преобразует однородный список объектов в CSV-документ.
      *
-     * @param data список объектов одного типа
-     * @return CSV-представление с заголовком и строками данных
-     * @throws IllegalArgumentException если входные данные некорректны,
-     *                                  класс не помечен {@link CsvEntity},
-     *                                  или отсутствуют поля с {@link CsvColumn}
+     * <p>Сгенерированный текст всегда содержит строку заголовков. Каждая последующая строка
+     * представляет один объект из входного списка.
+     *
+     * @param data непустой список объектов одного типа
+     * @return CSV-представление со строкой заголовков и строками данных
+     * @throws IllegalArgumentException если {@code data} равно {@code null}, пустое, содержит {@code null}-элементы,
+     *                                  содержит объекты разных типов, класс не аннотирован {@link CsvEntity}
+     *                                  или ни одно поле не аннотировано {@link CsvColumn}
      */
     public String serialize(List<?> data) {
         validateInput(data);

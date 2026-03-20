@@ -9,19 +9,31 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+/**
+ * Создаёт демонстрационные данные для запуска приложения и примеров.
+ */
 public class SampleDataFactory {
     private static final Faker FAKER = new Faker();
     private static final Random RANDOM = new Random();
 
-    private SampleDataFactory() {
-    }
-
+    /**
+     * Создаёт список случайных объектов {@link Person}.
+     *
+     * @param count количество объектов для генерации
+     * @return сгенерированные объекты Person
+     */
     public static List<Person> createPersons(int count) {
         return IntStream.range(0, count)
                 .mapToObj(i -> randomPerson())
                 .toList();
     }
 
+    /**
+     * Создаёт список случайных объектов {@link Student}.
+     *
+     * @param count количество объектов для генерации
+     * @return сгенерированные объекты Student
+     */
     public static List<Student> createStudents(int count) {
         return IntStream.range(0, count)
                 .mapToObj(i -> randomStudent())

@@ -6,6 +6,9 @@ import lombok.Data;
 import org.writer.csv.annotation.CsvColumn;
 import org.writer.csv.annotation.CsvEntity;
 
+/**
+ * Демонстрационная модель, представляющая человека и поддерживающая экспорт в CSV.
+ */
 @Data
 @Builder
 @AllArgsConstructor
