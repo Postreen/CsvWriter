@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.writer'
+version = '1.0-SNAPSHOT'
+
+ext {
+    lombokVersion = '1.18.34'
+    datafakerVersion = '2.2.2'
+    junitVersion = '5.10.2'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    implementation "net.datafaker:datafaker:${datafakerVersion}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+}
+
+application {
+    mainClass = 'org.writer.Main'
+}
+
+test {
+    useJUnitPlatform()
+}
