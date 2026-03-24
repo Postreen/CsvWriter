@@ -1,7 +1,17 @@
+*.csv
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+# Gradle
+.gradle/
+!build/libs/FileFilterUtility-*.jar
+build/
+logs/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
